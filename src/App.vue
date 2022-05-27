@@ -11,6 +11,10 @@ export default {
 			listening: false,
 			summarizing: false,
 			finished: false,
+			videoResults: {
+				videoThumbnail: null,
+				videoTitle: null
+			},
 			summary: ''
 		};
 	},
@@ -23,6 +27,9 @@ export default {
 		},
 		done() {
 			return this.finished;
+		},
+		getVideoResults() {
+			return this.videoResults;
 		},
 		text() {
 			return this.summary;
@@ -42,7 +49,8 @@ export default {
 		},
 		handleDone(results) {
 			this.finished = true;
-			this.summary = results;
+			this.videoResults = results;
+			this.summary = results.summary;
 		}
 	}
 }
@@ -52,7 +60,7 @@ export default {
 <div class="app-container">
 	<StatusHeader :listen="listen" :summarize="summarize" :done="done" />
 	<AudioUploader @transcribe="handleTranscribe" @listen="handleListen" @summarize="handleSummarize" @done="handleDone"/>
-	<Summarizer :text="text"/>
+	<Summarizer :videoResults="getVideoResults" :text="text"/>
 </div>
 </template>
 

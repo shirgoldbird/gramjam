@@ -1,6 +1,7 @@
 <script>
 export default {
 	props: {
+		videoResults: Object,
 		text: String
 	}
 }
@@ -10,7 +11,15 @@ export default {
 .summary-container {
 	margin: 10px 20px;
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
+}
+.video-title {
+	align-self: center;
+}
+.video-thumbnail {
+	align-self: center;
+	min-height: 50vh;
+	max-height: 50vh;
 }
 .summary-title {
 	text-transform: uppercase;
@@ -28,9 +37,11 @@ export default {
 </style>
 
 <template>
+<h2 v-if="videoResults.videoTitle" class="video-title">{{ videoResults.videoTitle }}</h2>
 <div class="summary-container">
-	<h4 class="summary-title">Summary</h4>
-	<div class="summary-content">
+	<img v-if="videoResults.videoThumbnail" class="video-thumbnail" :src=videoResults.videoThumbnail />
+	<div v-if="text" class="summary-content">
+		<h4 class="summary-title">Summary</h4>
 		<p class="summary-content--paragraph">
 			{{ text }}
 		</p>

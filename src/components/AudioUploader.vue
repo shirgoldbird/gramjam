@@ -5,27 +5,28 @@ import { handleError } from '../utils/error.js';
 export default {
 	methods: {
 		handleYoutubeSummary(e) {
-			alert('Feature not supported yet');
-			// TODO: Finish this function
-			/*
 			this.$emit('listen');
 			setTimeout(() => {
 				this.$emit('summarize');
 			}, 1500);
 			const youtubeURL = document.getElementById('youtube-url').value;
-			axios({
-				// TODO: Fill out the request information here
-			}).then(response => {
+			axios.post('https://onk7ysrjnb.execute-api.us-east-1.amazonaws.com/Production/youtube', {
+				'video_url': youtubeURL
+			}, { 'Content-Type': 'application/json' }).then(response => {
 				if(response.status == 200) {
-					const summary = ''; // TODO: Get the summary from the response
-					this.$emit('done', summary);
+					console.log(response);
+					const doneData = {
+						'summary': response.data.summary,
+						'videoTitle': response.data.video_title,
+						'videoThumbnail': response.data.video_thumbnail
+					};
+					this.$emit('done', doneData);
 				} else {
 					handleError('There was an error while processing the video. Check the log for more details.', response);
 				}
 			}).catch(error => {
 				handleError('There was an error while processing the video. Check the log for more details.', error);
 			});
-			*/
 		},
 		handleChange(e) {
 			this.$emit('listen');
@@ -75,7 +76,7 @@ export default {
 			}).then(response => {
 				if(response.status == 200) {
 					const summary = response.data.summary;
-					this.$emit('done', summary);
+					this.$emit('done', { summary });
 					console.log(response);
 				} else {
 					handleError('There was an error summarizing the text. Check the log for more details.', response);
